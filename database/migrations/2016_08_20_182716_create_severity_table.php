@@ -15,7 +15,7 @@ class CreateSeverityTable extends Migration
         Schema::create(
             'severity',
             function(Blueprint $table){
-                $table->bigIncrements('id');
+                $table->increments('id');
                 $table->string('title');
                 $table->string('desciption');
             }
@@ -31,5 +31,5 @@ class CreateSeverityTable extends Migration
     {
         Schema::drop('severity');
     }
-    }
+
 }

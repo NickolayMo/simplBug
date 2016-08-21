@@ -14,10 +14,10 @@ class CreateAttachmentTable extends Migration
     {
         Schema::create(
             'attachments', 
-            function(Bluprint $table){
-                $table->increment('id');
+            function(Blueprint $table){
+                $table->increments('id');
                 $table->binary('attachment');
-                $table->integer('comment_id');
+                $table->integer('comment_id')->references('id')->on('comments')->onDelete('cascade');;
                 $table->timestamps();
             }
         );

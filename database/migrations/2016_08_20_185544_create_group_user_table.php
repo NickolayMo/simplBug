@@ -15,11 +15,12 @@ class CreateGroupUserTable extends Migration
         Schema::create(
             'group_user',
             function(Blueprint $table){
-                $table->incriment('id');
+                $table->increments('id');
+                $table->integer('group_id')->unsigned()->index();
                 $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
-                $table->foreign('group_id')->unsigned()->index();
-                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-                $table->foreign('user_id')->unsigned()->index();
+                $table->integer('user_id')->unsigned()->index();
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');                
+                $table->timestamps();
             }
         );
     }
