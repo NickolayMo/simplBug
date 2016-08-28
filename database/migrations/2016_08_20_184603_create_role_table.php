@@ -12,7 +12,7 @@ class CreateRoleTable extends Migration
             function(Blueprint $table){
                 $table->increments('id');
                 $table->string('title')->unique();
-                $table->string('desciption')->nullable();
+                $table->string('description')->nullable();
                 $table->string('slug')->unique();
                 $table->timestamps();
             }

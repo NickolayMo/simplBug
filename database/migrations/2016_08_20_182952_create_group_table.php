@@ -12,7 +12,8 @@ class CreateGroupTable extends Migration
             function(Blueprint $table){
                 $table->increments('id');
                 $table->string('title');
-                $table->text('desciption')->nullable();
+                $table->text('description')->nullable();
+                $table->timestamps();
             }
         );        
     }

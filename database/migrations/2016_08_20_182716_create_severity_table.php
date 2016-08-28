@@ -13,11 +13,12 @@ class CreateSeverityTable extends Migration
     public function up()
     {
         Schema::create(
-            'severity',
+            'severities',
             function(Blueprint $table){
                 $table->increments('id');
                 $table->string('title');
-                $table->string('desciption');
+                $table->string('description')->nullable();
+                $table->timestamps();
             }
         );       
     }
@@ -29,7 +30,7 @@ class CreateSeverityTable extends Migration
      */
     public function down()
     {
-        Schema::drop('severity');
+        Schema::drop('severities');
     }
 
 }

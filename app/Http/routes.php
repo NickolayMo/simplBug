@@ -14,3 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['middleware'=>'auth'], function(){
+    Route::resource('issues', 'Issues\IssuesController');    
+    Route::resource('projects', 'ProjectsController');
+});
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

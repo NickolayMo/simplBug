@@ -17,16 +17,16 @@ class CreateIssueTable extends Migration
             function(Blueprint $table){
                 $table->increments('id');
                 $table->string('title');
-                $table->text('desciption');
-                $table->integer('severity');
-                $table->integer('status');
-                $table->integer('creator');
-                $table->integer('executor');
-                $table->integer('responsible');
-                $table->timestamp('date_created');
-                $table->timestamp('date_updated');
+                $table->text('description');
+                $table->integer('severity_id');
+                $table->integer('status_id');
+                $table->integer('project_id');
+                $table->integer('creator_id');
+                $table->integer('executor_id');
+                $table->integer('responsible_id');               
                 $table->timestamp('date_expected');
-                $table->time('time_expected');              
+                $table->time('time_expected'); 
+                $table->timestamps();             
 
             }
         );
