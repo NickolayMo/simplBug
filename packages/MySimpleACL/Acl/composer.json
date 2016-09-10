@@ -1,0 +1,18 @@
+{
+    "name": "kolya/acl",
+    "authors": [
+        {
+            "name": "kolya",
+            "email": "kolya456@test.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "classmap": [],
+	    "files": [],
+	    "psr-4": {
+	        "MySimpleACL\\Acl": "src/"
+	    }
+    } 
+}

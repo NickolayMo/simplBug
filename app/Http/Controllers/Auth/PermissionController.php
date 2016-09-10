@@ -1,13 +1,11 @@
 <?php 
-namespace App\Http\Controllers;
-
-use Illuminame\Http\Request;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Group;
+use App\Models\Permission;
 
-class GroupsController extends Controller{
-
+class PermissionController extends Controller
+{
    
      /**
      * Display a listing of the resource.
@@ -15,8 +13,8 @@ class GroupsController extends Controller{
      * @return Response
      */
     public function index(){
-        $groups = Group::paginate(1);      
-        return view('groups.index', ['groups'=>$groups]);
+        $permissions = Permission::paginate(1);      
+        return view('permissions.index', ['permissions'=>$permissions]);
         
     }
    
@@ -27,7 +25,7 @@ class GroupsController extends Controller{
      */
     public function create()
     {
-        return view('groups.create');
+        return view('permissions.create');
     }
 
     /**
@@ -37,9 +35,9 @@ class GroupsController extends Controller{
      */
     public function store(Request $request)
     {
-        $group = $request->all();
-        Group::create($group);
-        return redirect('groups');
+        $permission = $request->all();
+        Permission::create($permission);
+        return redirect('permissions');
     }
 
     /**
@@ -50,8 +48,8 @@ class GroupsController extends Controller{
      */
     public function show($id)
     {
-        $group = group::find($id);
-        return view('groups.show', ['group'=>$group]);
+        $permission = Permission::find($id);
+        return view('permissions.show', ['permission'=>$permission]);
     }
 
     /**
@@ -62,8 +60,8 @@ class GroupsController extends Controller{
      */
     public function edit($id)
     {
-        $group = Group::find($id);
-        return view('groups.update', ['group'=>$group]);
+        $permission = Permission::find($id);
+        return view('permissions.update', ['permission'=>$permission]);
     }
 
     /**
@@ -74,10 +72,10 @@ class GroupsController extends Controller{
      */
     public function update(Request $request, $id)
     {
-        $groupUpdate = $request->all();
-        $group = Group::find($id);
-        $group->update($groupUpdate);
-        return redirect('/groups');
+        $permissionUpdate = $request->all();
+        $permission = Permission::find($id);
+        $permission->update($permissionUpdate);
+        return redirect('/permissions');
     }
 
     /**
@@ -88,7 +86,8 @@ class GroupsController extends Controller{
      */
     public function destroy($id)
     {
-        Group::find($id)->delete();
-        return redirect('/groups');
+        Permission::find($id)->delete();
+        return redirect('/permissions');
     }
+
 }

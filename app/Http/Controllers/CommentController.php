@@ -1,22 +1,19 @@
-<?php 
+<?php
 namespace App\Http\Controllers;
-
-use Illuminame\Http\Request;
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Group;
+use App\Models\Comment;
 
-class GroupsController extends Controller{
+class CommentController extends Controller{
 
-   
-     /**
+        /**
      * Display a listing of the resource.
      *
      * @return Response
      */
     public function index(){
-        $groups = Group::paginate(1);      
-        return view('groups.index', ['groups'=>$groups]);
+        $comments = Comment::paginate(1);      
+        return view('comments.index', ['comments'=>$comments]);
         
     }
    
@@ -27,7 +24,7 @@ class GroupsController extends Controller{
      */
     public function create()
     {
-        return view('groups.create');
+        return view('comments.create');
     }
 
     /**
@@ -37,9 +34,9 @@ class GroupsController extends Controller{
      */
     public function store(Request $request)
     {
-        $group = $request->all();
-        Group::create($group);
-        return redirect('groups');
+        $comment = $request->all();
+        Comment::create($comment);
+        return redirect('comments');
     }
 
     /**
@@ -50,8 +47,8 @@ class GroupsController extends Controller{
      */
     public function show($id)
     {
-        $group = group::find($id);
-        return view('groups.show', ['group'=>$group]);
+        $comment = Comment::find($id);
+        return view('comments.show', ['comment'=>$comment]);
     }
 
     /**
@@ -62,8 +59,8 @@ class GroupsController extends Controller{
      */
     public function edit($id)
     {
-        $group = Group::find($id);
-        return view('groups.update', ['group'=>$group]);
+        $comment = Comment::find($id);
+        return view('comments.update', ['comment'=>$comment]);
     }
 
     /**
@@ -74,10 +71,10 @@ class GroupsController extends Controller{
      */
     public function update(Request $request, $id)
     {
-        $groupUpdate = $request->all();
-        $group = Group::find($id);
-        $group->update($groupUpdate);
-        return redirect('/groups');
+        $commentUpdate = $request->all();
+        $comment = Comment::find($id);
+        $comment->update($commentUpdate);
+        return redirect('/comments');
     }
 
     /**
@@ -88,7 +85,7 @@ class GroupsController extends Controller{
      */
     public function destroy($id)
     {
-        Group::find($id)->delete();
-        return redirect('/groups');
+        Comment::find($id)->delete();
+        return redirect('/comments');
     }
 }

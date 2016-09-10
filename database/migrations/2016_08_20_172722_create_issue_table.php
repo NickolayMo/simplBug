@@ -24,8 +24,10 @@ class CreateIssueTable extends Migration
                 $table->integer('creator_id');
                 $table->integer('executor_id');
                 $table->integer('responsible_id');               
-                $table->timestamp('date_expected');
-                $table->time('time_expected'); 
+                $table->time('expected_time'); 
+                $table->time('elapsed_time'); 
+                $table->timestamp('start_date'); 
+                $table->timestamp('close_date'); 
                 $table->timestamps();             
 
             }

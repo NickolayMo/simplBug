@@ -13,6 +13,8 @@
             <th>creator</th>
             <th></th>
             <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -34,6 +36,38 @@
                     <input type="submit" class="btn btn-dunger" value="Delete"/>
                 </form>      
             </td>
+            <td>
+                 <form action="{{route('issues.comment.create', $issue->id)}}" method="POST">
+                     <textarea name="text"></textarea>
+                     <input type="hidden" name="_method" value="PUT">
+                    <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                    <input type="submit" class="btn btn-dunger" value="addComment"/>
+                </form>  
+            <td>
+                <table>
+                    <tbody>
+                        @foreach($issue->comments as $comment)
+                        <tr>
+                            <td>
+                                {{ $comment->text }}
+                            </td>
+                            
+                            <td>
+                <form action="{{route('comments.destroy', $comment->id)}}" method="POST">
+                     <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                    <input type="submit" class="btn btn-dunger" value="Delete"/>
+                </form>      
+            </td>
+                            
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                
+                
+               
+                </td>
         </tr> 
         @endforeach
 

@@ -1,13 +1,11 @@
 <?php 
-namespace App\Http\Controllers;
-
-use Illuminame\Http\Request;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Group;
+use App\Models\Role;
 
-class GroupsController extends Controller{
-
+class RoleController extends Controller
+{
    
      /**
      * Display a listing of the resource.
@@ -15,8 +13,8 @@ class GroupsController extends Controller{
      * @return Response
      */
     public function index(){
-        $groups = Group::paginate(1);      
-        return view('groups.index', ['groups'=>$groups]);
+        $roles = Role::paginate(1);      
+        return view('roles.index', ['roles'=>$roles]);
         
     }
    
@@ -27,7 +25,7 @@ class GroupsController extends Controller{
      */
     public function create()
     {
-        return view('groups.create');
+        return view('roles.create');
     }
 
     /**
@@ -37,9 +35,9 @@ class GroupsController extends Controller{
      */
     public function store(Request $request)
     {
-        $group = $request->all();
-        Group::create($group);
-        return redirect('groups');
+        $role = $request->all();
+        Role::create($role);
+        return redirect('roles');
     }
 
     /**
@@ -50,8 +48,8 @@ class GroupsController extends Controller{
      */
     public function show($id)
     {
-        $group = group::find($id);
-        return view('groups.show', ['group'=>$group]);
+        $role = Role::find($id);
+        return view('roles.show', ['role'=>$role]);
     }
 
     /**
@@ -62,8 +60,8 @@ class GroupsController extends Controller{
      */
     public function edit($id)
     {
-        $group = Group::find($id);
-        return view('groups.update', ['group'=>$group]);
+        $role = Role::find($id);
+        return view('roles.update', ['role'=>$role]);
     }
 
     /**
@@ -74,10 +72,10 @@ class GroupsController extends Controller{
      */
     public function update(Request $request, $id)
     {
-        $groupUpdate = $request->all();
-        $group = Group::find($id);
-        $group->update($groupUpdate);
-        return redirect('/groups');
+        $roleUpdate = $request->all();
+        $role = Role::find($id);
+        $role->update($roleUpdate);
+        return redirect('/roles');
     }
 
     /**
@@ -88,7 +86,8 @@ class GroupsController extends Controller{
      */
     public function destroy($id)
     {
-        Group::find($id)->delete();
-        return redirect('/groups');
+        Role::find($id)->delete();
+        return redirect('/roles');
     }
+
 }

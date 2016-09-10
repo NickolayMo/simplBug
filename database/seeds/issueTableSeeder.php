@@ -21,8 +21,7 @@ class issueTableSeeder extends Seeder
                'creator_id'=> 1,
                 'executor_id'=> 1,
                'responsible_id'=> 1,
-               'date_expected'=>\Carbon\Carbon::now()->toDateTimeString(),
-               'time_expected'=>'1 day',           
+              
          
         ]);
     }

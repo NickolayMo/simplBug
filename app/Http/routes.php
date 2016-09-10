@@ -16,8 +16,23 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware'=>'auth'], function(){
-    Route::resource('issues', 'Issues\IssuesController');    
+   
+    Route::group(['middleware'=>'acl.role:aaaaaa'], function(){
+        Route::resource('issues', 'Issues\IssueController'); 
+    });
+
+    Route::put('issues/comment/add/{issueId}', [
+        'as'=>'issues.comment.create',
+        'uses'=>'Issues\IssueController@addComment'
+        
+    ]);   
     Route::resource('projects', 'ProjectsController');
+    Route::resource('groups', 'ProjectsController');   
+    Route::resource('comments', 'CommentController');   
+    Route::resource('roles', 'Auth\RoleController');
+    Route::resource('permissions', 'Auth\PermissionController');
+    
+    
 });
 
 Route::auth();

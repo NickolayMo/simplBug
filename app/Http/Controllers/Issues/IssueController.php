@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Issues;
 use Illuminate\Http\Request;
 
 use App\Models\Issue;
+use App\Models\Comment;
+use App\Models\User;
+use App\Models\Severity;
+use App\Models\Status;
 use App\Http\Controllers\Controller;
 
 class IssueController extends Controller
@@ -15,7 +19,7 @@ class IssueController extends Controller
      * @return Response
      */
     public function index(){
-        $issues = Issue::with('status', 'severity')->paginate(1);      
+        $issues = Issue::with('status', 'severity','executor', 'creator', 'responsible', 'comments')->paginate(5); 
         return view('issues.index', ['issues'=>$issues]);
         
     }
@@ -27,7 +31,15 @@ class IssueController extends Controller
      */
     public function create()
     {
-        return view('issues.create');
+        $users = User::all();
+        $severities = Severity::all();
+        $statuses = Status::all();
+        
+        return view('issues.create', [
+            'users'=>$users,
+            'severities'=>$severities,
+            'statuses'=>$statuses
+            ]);
     }
 
     /**
@@ -91,5 +103,13 @@ class IssueController extends Controller
     {
         Issue::find($id)->delete();
         return redirect('/issues');
+    }
+
+    public function addComment(Request $request, $issueId){
+        $comment = $request->all();
+        $comment['user_id'] = \Auth::user()->id;
+        $comment['issue_id'] = $issueId;
+        Comment::create($comment);
+        return redirect('/issues');        
     }
 }
