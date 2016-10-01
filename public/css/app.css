@@ -1,0 +1,100 @@
+.main-navbar {
+	background: #438EB9;
+	border-color: #438EB9;
+}
+.navbar-inverse .navbar-toggle{
+	border-color: #438EB9;
+}
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form{
+	border-color: #438EB9;
+}
+
+.main-navbar .navbar-header a {
+	color: white;
+}
+
+.main-navbar .navbar-nav>li>a {
+	color: white;
+}
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+	background: #6FB3E0;
+}
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover{
+	background: #6FB3E0;
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu>li>a{
+	color: #000000;
+}
+.panel-body a:focus, a:hover{
+	text-decoration:none;
+}
+.info-row{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.issue-title-row{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.woll {
+    margin-bottom: 0;
+}
+.woll>div{
+    margin-bottom: 2px;
+	margin-top: 2px;
+	
+}
+.woll a:focus { 
+	text-decoration: none;
+	background-color: #fff;		
+}
+.col-items>div{
+	border-left:5px #438EB9 solid;
+}
+.col-items>div:hover{
+	background-color: #f5f5f5;
+}
+#sortBy .col-items>div input{
+	display: none;
+}
+label[for=ordering-asc], label[for=ordering-desc]{
+	display: none;
+	opacity: 0.3;
+}
+input[name=order_by]:checked ~ .sortBy-sort>label[for=ordering-asc]{
+	display: inline;
+}
+input[name=order_by]:checked ~ .sortBy-sort>label[for=ordering-desc]{
+	display: inline;
+}
+#ordering-desc, #ordering-asc{
+	display: none;
+}
+
+#ordering-desc:checked ~ div>.sortBy-sort>label[for=ordering-desc]{
+	opacity: 1;
+}
+#ordering-asc:checked ~ div>.sortBy-sort>label[for=ordering-asc]{
+	opacity: 1;
+}
+.sortBy-sort{
+	float: right;
+}
+.filter label{
+	cursor: pointer;
+}
+.filter input[type=checkbox]{
+	display: none;
+}
+.filter span.glyphicon {    			
+	opacity: 0;				
+}
+.filter input[type=checkbox]:checked ~ span.glyphicon {				
+	opacity: 1;				
+}
+.filter-input{
+	width: 100%;
+	margin-top: 5px;
+}

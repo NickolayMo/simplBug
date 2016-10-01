@@ -9,19 +9,73 @@ use App\Models\Comment;
 use App\Models\User;
 use App\Models\Severity;
 use App\Models\Status;
+use App\Models\Project;
 use App\Http\Controllers\Controller;
+use App\Repositories\IssueRepository;
 
 class IssueController extends Controller
 {
+    /** IssueRepository $_repository */
+    private $_repository;
+
+    public function __construct(IssueRepository $repository){
+        $this->_repository = $repository;
+    }
       /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index(){
-        $issues = Issue::with('status', 'severity','executor', 'creator', 'responsible', 'comments')->paginate(5); 
-        return view('issues.index', ['issues'=>$issues]);
+    public function index(Request $request){
+       
+        $filters = $request->all();
+        $i = new Issue();
+        $e = $i->getAllIssues();
+        $e = $this->_applyFilters($request, $e); 
+        $issues = $e->paginate(2);
+        $severities = Severity::get();
+        $projects = Project::get();     
+        $statuses = Status::get();
+        $users = User::get();             
+        return view('issues.index', [
+            'issues'=>$issues, 
+            'filters'=>$filters,
+            'severities'=>$severities,
+            'projects'=>$projects,
+            'statuses'=>$statuses,
+            'users'=>$users
+            ]);
         
+    }
+
+
+    protected function _applyFilters(Request $request, $issues){
+        $filters = $request->all();       
+        $issues = $this->_applySort($filters, $issues);
+        $issues = $this->_applyRestrictions($filters, $issues);
+        $issues = $this->_applySearch($filters, $issues);
+        return $issues;       
+    }
+
+   
+    protected function _applySort($filters, $issue){        
+        if(!isset($filters['order_by'])){
+            return $issue->orderBy('issues.id', 'ASC');;
+        } 
+        $order = (isset($filters['ordering']) && strtolower($filters['ordering']) === 'desc') ? 'DESC' : 'ASC';  
+        return $this->_repository->getOrderedIssues($issue, $filters['order_by'], $order);
+    }
+
+    protected function _applyRestrictions($filters, $issue){
+        return $this->_repository->getFilteredIssues($issue, $filters);
+    }
+
+    protected function _applySearch($filters, $issue){
+        if(!isset($filters['q'])){
+            return $issue;
+        }     
+        return $this->_repository->getSearchForIssue($issue, $filters['q']);
+
     }
    
     /**
@@ -34,11 +88,13 @@ class IssueController extends Controller
         $users = User::all();
         $severities = Severity::all();
         $statuses = Status::all();
+        $projects = Project::all();
         
         return view('issues.create', [
             'users'=>$users,
             'severities'=>$severities,
-            'statuses'=>$statuses
+            'statuses'=>$statuses,
+            'projects'=>$projects
             ]);
     }
 
@@ -49,8 +105,16 @@ class IssueController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required',
+        ]);
         $issue = $request->all();
-        Issue::create($issue);
+        $issue['creator_id'] = \Auth::user()->id;      
+        Issue::create($issue);        
+        if(isset($issue['issue_save_and_repeat'])){
+            return redirect('issues.create');
+        }
         return redirect('issues');
     }
 

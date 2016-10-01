@@ -11,15 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::group(['middleware'=>'auth'], function(){
-   
-    Route::group(['middleware'=>'acl.role:aaaaaa'], function(){
-        Route::resource('issues', 'Issues\IssueController'); 
+    Route::get('/', function () {
+        return view('welcome');
     });
+   
+   // Route::group(['middleware'=>'acl.role:aaaaaa'], function(){
+        Route::resource('issues', 'Issues\IssueController'); 
+    //});
 
     Route::put('issues/comment/add/{issueId}', [
         'as'=>'issues.comment.create',

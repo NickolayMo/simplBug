@@ -1,50 +1,84 @@
-@extends('layouts.app')
-@section('content')
-<form method="POST" action="{{route('issues.store')}}">   
-    <label for="title">title</label><input name="title"/>
-    <label for="description">description</label><textarea name="description" ></textarea>
-    <label for="status_id">status</label>
-    <select name="status_id">
-        @foreach($statuses as $status)
-        <option value="{{$status->id}}">{{$status->title}}</option>
-        @endforeach
-    </select>
+@extends('layouts.app') @section('content')
+<div class="container">
+    <h2 class="col-md-12">Add issue</h2>
+    <form method="POST" action="{{route('issues.store')}}" class="form">
 
-    
-    <label for="severity_id">severity</label>
-   <select name="severity_id">
-        @foreach($severities as $severity)
-        <option value="{{$severity->id}}">{{$severity->title}}</option>
-        @endforeach
-    </select>
-    <label for="start_date">start date</label>
-    <input type="date" name="start_date"/>
-     <label for="close_date">close date</label>
-    <input type="date" name="close_date"/>
-    <label for="expected_time">expected time</label>
-    <input type="number" name="expected_time"/>
-     <label for="elapsed_time">elapsed_time</label>
-    <input type="number" name="elapsed_time"/>
+        <div class="col-md-8">
+            <div class="form-group @if ($errors->has('title')) has-error  @endif">
+                <label class="control-label" for="title">Title</label>
+                <input name="title" type="text" class="form-control" id="title" aria-describedby="helpBlockTitle" placeholder="Enter issue title" required>
+                @if ($errors->has('title'))
+                @foreach($errors->get('title') as $error)
+                <span class="help-block">{{ $errors->first('title') }}</span>
+                @endforeach 
+                @endif
+            </div>
+            <div class="form-group @if ($errors->has('description')) has-error  @endif">
+                <label class="control-label" for="description">Description</label>
+                <textarea rows="16" name="description" type="text" class="form-control" id="description" aria-describedby="helpBlockDescription" placeholder="Enter issue description" required></textarea>                
+                @if ($errors->has('description')) 
+                @foreach($errors->get('description') as $error)
+                <span class="help-block">{{ $errors->first('description') }}</span> 
+                @endforeach 
+                @endif
+            </div>            
+        </div>
+        <div class="col-md-4">
+             <div class="form-group">
+                <label class="control-label" for="project_id">Project</label>
+                <select name="project_id" class="form-control" id="project_id" aria-describedby="helpBlockResponsible">
+                    <option></option>
+                    @foreach($projects as $project)
+                    <option value="{{$project->id}}">{{$project->title}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="status_id">Status</label>
+                <select name="status_id" class="form-control" id="status_id" aria-describedby="helpBlockStatus">
+                    <option></option>
+                    @foreach($statuses as $status)
+                    <option value="{{$status->id}}">{{$status->title}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="severity_id">Priority</label>
+                <select name="severity_id" class="form-control" id="severity_id" aria-describedby="helpBlockSeverity">
+                    <option></option>
+                    @foreach($severities as $severity)
+                    <option value="{{$severity->id}}">{{$severity->title}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="responsible_id">Assign to</label>
+                <select name="responsible_id" class="form-control" id="responsible_id" aria-describedby="helpBlockResponsible">
+                    <option></option>
+                    @foreach($users as $user)
+                    <option value="{{$user->id}}">{{$user->name}}</option>
+                    @endforeach
+                </select>
+            </div>
 
-    <label for="creator_id">Creator</label>
-     <select name="creator_id">
-        @foreach($users as $user)
-        <option value="{{$user->id}}">{{$user->name}}</option>
-        @endforeach
-    </select>
-    <label for="executor_id">executor</label>
-   <select name="executor_id">
-        @foreach($users as $user)
-        <option value="{{$user->id}}">{{$user->name}}</option>
-        @endforeach
-    </select>
-    <label for="responsible_id">responsible</label>
-   <select name="responsible_id">
-        @foreach($users as $user)
-        <option value="{{$user->id}}">{{$user->name}}</option>
-        @endforeach
-    </select>
-    <input type="hidden" name="_token" value="{{csrf_token()}}">
-    <input type="submit" value="Save"/>
-</form>
+            <div class="form-group">
+                <label class="control-label" for="start_date">Start date</label>
+                <input name="start_date" type="date" class="form-control" id="start_date" aria-describedby="helpBlockStartDate">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="expected_time">Expected time</label>
+                <input name="expected_time" type="number" class="form-control" id="expected_time" aria-describedby="helpBlockExpectedTime">
+            </div>
+
+        </div>
+        <div class="col-md-12">
+            <input type="hidden" name="_token" value="{{csrf_token()}}">
+            <input type="submit" class="btn btn-default" name="issue_save" value="Save issue" />
+            <input type="submit" class="btn btn-default" name="issue_save_and_repeat" value="Save issue and add another" />
+        </div>
+        
+    </form>
+</div>
+
 @endsection

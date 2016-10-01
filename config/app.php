@@ -156,8 +156,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
-        MySimpleAcl\Acl\AclServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,       
 
     ],
 
