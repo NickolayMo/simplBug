@@ -12,8 +12,17 @@ class statusTableSeeder extends Seeder
     public function run()
     {
        Db::table('statuses')->insert([
-            'title'=>'Relise',
-             'description'=>str_random(50),
+            'title'=>'Release',
+            'description'=>'Release',
         ]);
+       Db::table('statuses')->insert([
+            'title'=>'In progress',
+            'description'=>'In progress',
+        ]);
+       Db::table('statuses')->insert([
+            'title'=>'Test',
+            'description'=>'Test',
+        ]);
+       
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Issues;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
@@ -30,9 +30,8 @@ class IssueController extends Controller
        
         $filters = $request->all();
         $i = new Issue();
-        $e = $i->getAllIssues();
-        $e = $this->_applyFilters($request, $e); 
-        $issues = $e->paginate(2);
+        $e = $this->_applyFilters($request, $i->getAllIssues()); 
+        $issues = $e->paginate(20);
         $severities = Severity::get();
         $projects = Project::get();     
         $statuses = Status::get();
@@ -49,27 +48,51 @@ class IssueController extends Controller
     }
 
 
+    /**
+     * Appling filters and restricttion to issues set
+     * @param Request $request
+     * @param type $issues
+     * @return type
+     */
     protected function _applyFilters(Request $request, $issues){
         $filters = $request->all();       
-        $issues = $this->_applySort($filters, $issues);
-        $issues = $this->_applyRestrictions($filters, $issues);
-        $issues = $this->_applySearch($filters, $issues);
-        return $issues;       
+        $sortedIssues = $this->_applySort($filters, $issues);
+        $filteredIssues = $this->_applyRestrictions($filters, $sortedIssues);
+        $resultIssues = $this->_applySearch($filters, $filteredIssues);
+        return $resultIssues;       
     }
 
    
+    /**
+     * Appling sorting
+     * @param type $filters
+     * @param type $issue
+     * @return type
+     */
     protected function _applySort($filters, $issue){        
         if(!isset($filters['order_by'])){
-            return $issue->orderBy('issues.id', 'ASC');;
+            return $issue->orderBy('issues.id', 'ASC');
         } 
         $order = (isset($filters['ordering']) && strtolower($filters['ordering']) === 'desc') ? 'DESC' : 'ASC';  
         return $this->_repository->getOrderedIssues($issue, $filters['order_by'], $order);
     }
 
+    /**
+     * Appling restrictions
+     * @param type $filters
+     * @param type $issue
+     * @return type
+     */
     protected function _applyRestrictions($filters, $issue){
         return $this->_repository->getFilteredIssues($issue, $filters);
     }
 
+    /**
+     * Appling search
+     * @param type $filters
+     * @param type $issue
+     * @return type
+     */
     protected function _applySearch($filters, $issue){
         if(!isset($filters['q'])){
             return $issue;
@@ -139,7 +162,17 @@ class IssueController extends Controller
     public function edit($id)
     {
         $issue = Issue::find($id);
-        return view('issues.update', ['issue'=>$issue]);
+        $users = User::all();
+        $severities = Severity::all();
+        $statuses = Status::all();
+        $projects = Project::all();
+        return view('issues.update', [
+            'issue'=>$issue,
+            'users'=>$users,
+            'severities'=>$severities,
+            'statuses'=>$statuses,
+            'projects'=>$projects
+            ]);
     }
 
     /**
@@ -154,7 +187,7 @@ class IssueController extends Controller
         $issueUpdate = $request->all();
         $issue = Issue::find($id);
         $issue->update($issueUpdate);
-        return redirect('/issues');
+        return redirect()->route('issues.edit',['issues'=>$id]); 
     }
 
     /**
@@ -169,11 +202,42 @@ class IssueController extends Controller
         return redirect('/issues');
     }
 
-    public function addComment(Request $request, $issueId){
+    /**
+     * Add comment to issue
+     * @param Request $request
+     * @return type
+     */
+    public function addComment(Request $request){
         $comment = $request->all();
         $comment['user_id'] = \Auth::user()->id;
-        $comment['issue_id'] = $issueId;
+        $issueId = $comment['issue_id'];
         Comment::create($comment);
-        return redirect('/issues');        
+        return redirect()->route('issues.edit',['issues'=>$issueId]);        
     }
+
+    /**
+     * Update comment 
+     * @param Request $request
+     * @return type
+     */
+    public function updateComment(Request $request){
+        $commentUpdate = $request->all();
+        $comment = Comment::find($commentUpdate['id']);
+        $comment->update($commentUpdate);
+        $issueId = $comment['issue_id'];
+        return redirect()->route('issues.edit',['issues'=>$issueId]); 
+    }
+
+    /**
+     * Destroy comment
+     * @param Request $request
+     * @return type
+     */
+    public function destroyComment(Request $request){
+        $comment = $request->all();       
+        $issueId = $comment['issue_id'];        
+        Comment::find($comment['id'])->delete();
+        return redirect()->route('issues.edit',['issues'=>$issueId]); 
+    }
+
 }

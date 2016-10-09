@@ -13,7 +13,15 @@ class severityTableSeeder extends Seeder
     {
         Db::table('severities')->insert([
             'title'=>'Hight',
-             'description'=>str_random(50),
+             'description'=>'Hight',
+        ]);
+         Db::table('severities')->insert([
+            'title'=>'Low',
+             'description'=>'Low',
+        ]);
+         Db::table('severities')->insert([
+            'title'=>'Medium',
+             'description'=>'Medium',
         ]);
     }
 }

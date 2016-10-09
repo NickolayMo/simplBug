@@ -23,13 +23,18 @@
                     
                     <div class="col-md-1">
                         @if($issue->comment_count > 0)
-                        <a href="#"><i class="fa fa-comment" aria-hidden="true"></i>
+                        <a href="{{route('issues.edit',  $issue->id)}}"><i class="fa fa-comment" aria-hidden="true"></i>
                             <span>{{$issue->comment_count}}</span>
                         </a>
                         @endif
                     </div>
 
                 </div>   
+                 <div class="panel-body issue-title-row">
+                    <div class="col-md-12">
+                         Project: <strong>{{$issue->project_title}}</strong>  
+                     </div> 
+                 </div>
                  <div class="panel-body info-row">
                      <div class="col-md-8">
                          <small>
@@ -106,6 +111,13 @@
     </a>
     <div class="collapse" id="status">         
             <div class="woll col-items list-group">
+             <div class="list-group-item">
+                    <input id="status_0" type="checkbox" name="status_id[]" value="0"
+                     {{isset($filters['status_id']) && in_array(0, $filters['status_id']) ? 'checked=checked': ""}}
+                    />
+                    <span class="glyphicon glyphicon-ok"></span>
+                    <label for="status_0">Not set</label>                                                                           
+                </div>
             @foreach($statuses as $status)
                <div class="list-group-item">
                     <input id="status_{{$status->id}}" type="checkbox" name="status_id[]" value="{{$status->id}}"
@@ -125,6 +137,15 @@
     </a>
     <div class="collapse" id="severity">         
             <div class="woll col-items list-group">
+
+            <div class="list-group-item">
+                    <input id="severity_0" type="checkbox" name="severity_id[]" value="0"
+                     {{isset($filters['severity_id']) && in_array(0, $filters['severity_id']) ? 'checked=checked': ""}}
+                    />
+                    <span class="glyphicon glyphicon-ok"></span>
+                    <label for="severity_0">Not set</label>                                                                           
+                </div>
+
             @foreach($severities as $severity)
                <div class="list-group-item">
                     <input id="severity_{{$severity->id}}" type="checkbox" name="severity_id[]" value="{{$severity->id}}"

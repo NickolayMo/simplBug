@@ -17,7 +17,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
         crossorigin="anonymous"> {{--
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
-    <link rel="stylesheet" href="{{asset('css/app.css')}}"> @yield('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
+    <link rel="stylesheet" href="{{asset('css/app.css')}}"> 
+    @yield('styles')
 
     <style>
         body {
@@ -52,35 +54,38 @@
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
-                <ul class="nav navbar-nav">
+                 <ul class="nav navbar-nav">
 
+                 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                Projects <span class="caret"></span>
-                            </a>
+                                Project<span class="caret"></span>
+                         </a>
 
                         <ul class="dropdown-menu" role="menu">
+                         <li><a href="{{ route('home', 'project=0') }}">All</a></li>
                         @foreach(App\Models\Project::get() as $project)
-                            <li><a href="{{ url('/settings') }}">{{$project->title}}</a></li>
+                            <li><a href="{{ route('home', 'project='.$project->id) }}">{{$project->title}}</a></li>
                         @endforeach
                         </ul>
-                    </li>
+                    </li>                   
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                Issues <span class="caret"></span>
+                                Issues<span class="caret"></span>
                             </a>
 
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ route('issues.index') }}">All issues</a></li>
-                            <li><a href="{{ route('issues.index', 'responsible_id[]='. Auth::user()->id) }}">Assigned to me</a></li>
+                            <li><a href="{{ route('home') }}">All issues</a></li>
+                            <li><a href="{{ route('home', 'assigned_to='. Auth::user()->id) }}">Assigned to me</a></li>
                             
                         </ul>
                     </li>
-                    <li><a href="{{route('issues.create')}}"><i class="fa fa-plus" aria-hidden="true"></i> Add issue</a></li>
+                    <li><a href="{{route('issues.create')}}" target="_blank"><i class="fa fa-plus" aria-hidden="true"></i> Add issue</a></li>
                 </ul>
 
                 <div class="col-sm-3 col-md-3">
-                    <form class="navbar-form" role="search">
+                    <form method="GET" action="{{route('issues.index')}}" class="navbar-form" role="search">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Search" name="q">
                             <div class="input-group-btn">
@@ -101,8 +106,7 @@
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('/settings') }}"><i class="fa fa-btn fa-cog" ></i>Settings</a></li>
+                        <ul class="dropdown-menu" role="menu">                          
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                         </ul>
                     </li>
@@ -124,6 +128,8 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script> {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        @yield('scripts')
 </body>
 
 </html>

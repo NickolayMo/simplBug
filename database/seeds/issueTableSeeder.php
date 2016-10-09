@@ -13,8 +13,20 @@ class issueTableSeeder extends Seeder
     public function run()
     {
          DB::table('issues')->insert([           
-              'title'=> str_random(10),
-               'description'=> str_random(10),
+              'title'=> 'first issue',
+               'description'=> 'first issue',
+               'severity_id'=> 1,
+               'status_id'=> 1,
+               'project_id'=> 1,
+               'creator_id'=> 1,
+                'executor_id'=> 1,
+               'responsible_id'=> 1,
+              
+         
+        ]);
+        DB::table('issues')->insert([           
+              'title'=> 'seonnd issue',
+               'description'=> 'first issue',
                'severity_id'=> 1,
                'status_id'=> 1,
                'project_id'=> 1,

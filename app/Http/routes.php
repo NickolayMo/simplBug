@@ -11,29 +11,32 @@
 |
 */
 
-Route::group(['middleware'=>'auth'], function(){
-    Route::get('/', function () {
-        return view('welcome');
-    });
+Route::group(['middleware'=>['auth']], function(){
    
-   // Route::group(['middleware'=>'acl.role:aaaaaa'], function(){
-        Route::resource('issues', 'Issues\IssueController'); 
-    //});
+   Route::get('/', [
+       'as'=>'home',
+       'uses'=>'HomeController@index'
+       ]);
+  
+   Route::resource('issues', 'IssueController'); 
+  
 
-    Route::put('issues/comment/add/{issueId}', [
+    Route::post('issues/comments/add', [
         'as'=>'issues.comment.create',
-        'uses'=>'Issues\IssueController@addComment'
+        'uses'=>'IssueController@addComment'
         
-    ]);   
-    Route::resource('projects', 'ProjectsController');
-    Route::resource('groups', 'ProjectsController');   
-    Route::resource('comments', 'CommentController');   
-    Route::resource('roles', 'Auth\RoleController');
-    Route::resource('permissions', 'Auth\PermissionController');
-    
-    
+    ]);
+    Route::post('issues/comments/update', [
+        'as'=>'issues.comment.update',
+        'uses'=>'IssueController@updateComment'
+        
+    ]); 
+    Route::post('issues/comments/destroy', [
+        'as'=>'issues.comment.destroy',
+        'uses'=>'IssueController@destroyComment'        
+    ]); 
 });
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+

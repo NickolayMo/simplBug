@@ -13,7 +13,15 @@ class projectTableSeeder extends Seeder
     {
         Db::table('projects')->insert([
             'title'=>'first Project',
-               'description'=>str_random(50),
+            'description'=>'first project',
+        ]);
+         Db::table('projects')->insert([
+            'title'=>'second Project',
+            'description'=>'second project',
+        ]);
+          Db::table('projects')->insert([
+            'title'=>'third Project',
+            'description'=>'third project',
         ]);
     }
 }
